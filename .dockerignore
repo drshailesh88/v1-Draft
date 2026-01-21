@@ -1,0 +1,11 @@
+# Docker ignore files
+.env
+.env.local
+*.md
+client/
+venv/
+__pycache__/
+*.pyc
+.git
+.gitignore
+README.md
