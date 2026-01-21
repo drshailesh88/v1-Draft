@@ -33,3 +33,19 @@ python-dotenv>=1.0.0
 # Additional utilities
 httpx>=0.25.0
 aiofiles>=23.0.0
+
+# Literature Search APIs
+biopython>=1.83
+arxiv>=2.1.0
+scholarly>=1.7.11
+requests>=2.31.0
+
+# AI Detection
+transformers>=4.40.0
+torch>=2.2.0
+
+# LangGraph for multi-agent workflows
+langgraph>=0.0.20
+
+# Model Context Protocol (MCP)
+mcp>=1.25.0
