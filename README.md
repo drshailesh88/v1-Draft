@@ -1,4 +1,4 @@
-# Sci-Space Clone - Academic Research Platform
+# V1 Draft - Academic Research Platform
 
 🚀 **5 Parallel Features Built**
 - Agent A: Chat with PDF ✅

@@ -13,7 +13,7 @@ async def lifespan(app: FastAPI):
     print("👋 Shutting down FastAPI server...")
 
 app = FastAPI(
-    title="Sci-Space Clone API",
+    title="V1 Draft API",
     description="Academic research platform API - 5 parallel features",
     version="1.0.0",
     lifespan=lifespan
@@ -31,7 +31,7 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {
-        "message": "Sci-Space Clone API",
+        "message": "V1 Draft API",
         "version": "1.0.0",
         "features": [
             "Chat with PDF",

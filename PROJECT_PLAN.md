@@ -1,7 +1,7 @@
-# SciSpace Clone Project Plan
+# V1 Draft Project Plan
 
 ## Project Overview
-Building a subscription-based academic research platform similar to scispace.com with custom UI.
+Building a subscription-based academic research platform with custom UI.
 
 ## Core Features to Build
 

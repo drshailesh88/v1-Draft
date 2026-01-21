@@ -1,4 +1,4 @@
--- Core Database Schema for Sci-Space Clone
+-- Core Database Schema for V1 Draft
 -- PostgreSQL + pgvector (Supabase)
 
 -- Users table
