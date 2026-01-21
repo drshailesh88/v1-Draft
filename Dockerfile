@@ -1,38 +1,27 @@
-# Dockerfile for Sci-Space Clone
+# Use official Python image
 FROM python:3.11-slim
 
-# Set working directory
-WORKDIR /app
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Install system dependencies required for PDF processing and AI packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
     gcc \
-    g++ \
-    libmagic1 \
-    libmagic-dev \
-    poppler-utils \
-    tesseract-ocr \
-    libpq-dev \
-    curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first (for caching)
-COPY server/requirements.txt .
+# Copy requirements
+COPY requirements.txt /app/
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy application code
-COPY server/ .
-
-# Railway provides PORT env variable, default to 8000
-ENV PORT=8000
+# Copy application
+WORKDIR /app
+COPY . .
 
 # Expose port
-EXPOSE $PORT
+EXPOSE 8000
 
-# Run application - use PORT from environment
-CMD uvicorn main:app --host 0.0.0.0 --port $PORT
+# Run with PORT variable
+CMD ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
