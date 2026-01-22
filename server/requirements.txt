@@ -33,3 +33,7 @@ python-dotenv>=1.0.0
 # Additional utilities
 httpx>=0.25.0
 aiofiles>=23.0.0
+
+# Literature Search
+biopython>=1.81
+arxiv>=2.0.0
