@@ -1,50 +1,76 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# V1 Draft Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Library-First Development
+Use proven, MIT/Apache licensed GitHub repositories for every feature. No reinventing the wheel. Every feature should leverage existing libraries:
+- `arxiv`, `biopython`, `semanticscholar` for paper search
+- `pdfplumber` for PDF processing
+- `langchain`, `openai` for AI features
+- `pandas`, `openpyxl` for data export
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. API-First Architecture
+Every feature is an API endpoint first:
+- FastAPI backend with automatic OpenAPI docs
+- REST endpoints with JSON responses
+- Health checks at `/health`
+- Frontend consumes backend API
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test Before Deploy
+Before deploying any feature:
+1. Test endpoint locally with curl
+2. Verify response format
+3. Check error handling
+4. Then deploy to Railway
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Don't Break Working Features
+8 features are PRODUCTION READY. Do not modify:
+- ai_writer.py, deep_review.py, paraphraser.py
+- systematic_review.py, ai_detector.py, topics.py
+- payments.py, citations.py
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Spec-Driven Development
+Follow the Speckit workflow:
+1. `/speckit.specify` - Define what to build
+2. `/speckit.plan` - Create technical plan
+3. `/speckit.tasks` - Generate task list
+4. `/speckit.implement` - Execute implementation
+5. `/speckit.analyze` - Verify consistency
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technology Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Backend
+- Python 3.11+ with FastAPI
+- Supabase for database (PostgreSQL + pgvector)
+- OpenAI GPT-4 for AI features
+- No Flask, no Django
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### Frontend
+- Next.js 16 with App Router
+- React 19, TypeScript
+- Tailwind CSS for styling
+- No other UI frameworks
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Deployment
+- Railway for hosting
+- Docker for containerization
+- GitHub for version control
+
+## Development Workflow
+
+1. **Read** CLAUDE.md and STATUS.md first
+2. **Check** MASTER_BUILD_PLAN.md for implementation details
+3. **Follow** task order: Literature Search → Chat PDF → Citation Booster → Data Extraction
+4. **Test** each feature before moving to next
+5. **Commit** after each completed task
+6. **Deploy** with `railway up`
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution guides all development decisions
+- CLAUDE.md is the primary directive file
+- MASTER_BUILD_PLAN.md contains implementation code
+- STATUS.md shows current progress
+- Speckit specs in `.specify/specs/` define features
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-01-22 | **Last Amended**: 2026-01-22
