@@ -46,6 +46,9 @@ async def root():
             "AI Detector",
             "AI Writer",
             "Systematic Literature Review",
+            "Find Topics / Research Gap Finder",
+            "Paraphraser",
+            "Deep Review",
         ],
         "status": "running",
     }
@@ -56,7 +59,7 @@ async def health():
     return {"status": "healthy"}
 
 
-# Include routers for all 5 parallel features + AI Writer + Systematic Review
+# Include routers for all features
 from app.api import (
     chat,
     literature,
@@ -66,6 +69,9 @@ from app.api import (
     citation_booster,
     ai_writer,
     systematic_review,
+    find_topics,
+    paraphraser,
+    deep_review,
 )
 
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
@@ -83,6 +89,21 @@ app.include_router(
     systematic_review.router,
     prefix="/api/systematic-review",
     tags=["systematic-review"],
+)
+app.include_router(
+    find_topics.router,
+    prefix="/api/find-topics",
+    tags=["find-topics"],
+)
+app.include_router(
+    paraphraser.router,
+    prefix="/api/paraphraser",
+    tags=["paraphraser"],
+)
+app.include_router(
+    deep_review.router,
+    prefix="/api/deep-review",
+    tags=["deep-review"],
 )
 
 if __name__ == "__main__":
