@@ -44,6 +44,8 @@ async def root():
             "Citation Generator",
             "Data Extraction",
             "AI Detector",
+            "AI Writer",
+            "Systematic Literature Review",
         ],
         "status": "running",
     }
@@ -54,8 +56,17 @@ async def health():
     return {"status": "healthy"}
 
 
-# Include routers for all 5 parallel features
-from app.api import chat, literature, citations, data_extraction, ai_detector
+# Include routers for all 5 parallel features + AI Writer + Systematic Review
+from app.api import (
+    chat,
+    literature,
+    citations,
+    data_extraction,
+    ai_detector,
+    citation_booster,
+    ai_writer,
+    systematic_review,
+)
 
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(literature.router, prefix="/api/literature", tags=["literature"])
@@ -64,6 +75,15 @@ app.include_router(
     data_extraction.router, prefix="/api/data-extraction", tags=["data-extraction"]
 )
 app.include_router(ai_detector.router, prefix="/api/ai-detector", tags=["ai-detector"])
+app.include_router(
+    citation_booster.router, prefix="/api/citation-booster", tags=["citation-booster"]
+)
+app.include_router(ai_writer.router, prefix="/api/ai-writer", tags=["ai-writer"])
+app.include_router(
+    systematic_review.router,
+    prefix="/api/systematic-review",
+    tags=["systematic-review"],
+)
 
 if __name__ == "__main__":
     import uvicorn
