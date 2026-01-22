@@ -17,10 +17,13 @@ CREATE TABLE IF NOT EXISTS documents (
     title VARCHAR(500),
     filename VARCHAR(255) NOT NULL,
     storage_key VARCHAR(500),
-    total_pages INT,
+    total_pages INT DEFAULT 0,
+    total_chunks INT DEFAULT 0,
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     processed_at TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) DEFAULT 'uploading'
+    status VARCHAR(50) DEFAULT 'processing'
 );
 
 -- Document chunks (for vector search)
@@ -121,3 +124,40 @@ CREATE INDEX IF NOT EXISTS idx_saved_papers_user_id ON saved_papers(user_id);
 CREATE INDEX IF NOT EXISTS idx_citations_user_id ON citations(user_id);
 CREATE INDEX IF NOT EXISTS idx_data_extractions_user_id ON data_extractions(user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_detections_user_id ON ai_detections(user_id);
+
+-- RPC function for vector similarity search in document chunks
+CREATE OR REPLACE FUNCTION match_document_chunks(
+    query_embedding vector(1536),
+    target_document_id UUID,
+    match_threshold FLOAT DEFAULT 0.3,
+    match_count INT DEFAULT 5
+)
+RETURNS TABLE (
+    id UUID,
+    content TEXT,
+    page_number INT,
+    chunk_index INT,
+    similarity FLOAT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        dc.id,
+        dc.content,
+        dc.page_number,
+        dc.chunk_index,
+        1 - (dc.embedding <=> query_embedding) AS similarity
+    FROM document_chunks dc
+    WHERE dc.document_id = target_document_id
+      AND dc.embedding IS NOT NULL
+      AND 1 - (dc.embedding <=> query_embedding) >= match_threshold
+    ORDER BY dc.embedding <=> query_embedding
+    LIMIT match_count;
+END;
+$$;
+
+-- Grant execute permission to authenticated users
+GRANT EXECUTE ON FUNCTION match_document_chunks(vector, UUID, FLOAT, INT) TO authenticated;
+GRANT EXECUTE ON FUNCTION match_document_chunks(vector, UUID, FLOAT, INT) TO service_role;
